@@ -1,1 +1,29 @@
 /* You can add global styles to this file, and also import other style files */
+:root {
+    color-scheme: light dark;
+}
+
+html,
+body {
+    height: 100%;
+}
+
+body {
+    margin: 0;
+    font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+.card {
+    min-width: 300px;
+    max-width: 900px;
+    width: 70vw;
+    margin: 1rem;
+    min-height: 100px;
+    overflow: auto;
+}
+
+.container {
+    display: grid;
+    place-content: center;
+    height: calc(100vh - 64px);
+}

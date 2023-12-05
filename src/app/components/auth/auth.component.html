@@ -1,0 +1,28 @@
+<div class="container">
+    <mat-card class="card">
+        <mat-card-header>
+            <mat-card-title style="color: darkblue;">Sign In</mat-card-title>
+            <mat-card-subtitle>Sign in via magic link with your email below</mat-card-subtitle>
+        </mat-card-header>
+        <form [formGroup]="signInForm" (ngSubmit)="onSubmit()" class="form-widget">
+            <mat-card-content>
+                <mat-form-field class="form-field">
+                    <mat-label>Email</mat-label>
+                    <input type="email" matInput formControlName="email" placeholder="Ex. pat@example.com">
+                    @if (signInForm.hasError('email') && !signInForm.hasError('required')) {
+                    <mat-error>Please enter a valid email address</mat-error>
+                    }
+                    @if (signInForm.hasError('required')) {
+                    <mat-error>Email is <strong>required</strong></mat-error>
+                    }
+                </mat-form-field>
+            </mat-card-content>
+            <mat-card-actions align="end">
+                <button mat-stroked-button color="primary" type="submit" class="button block" [disabled]="loading"
+                    style="margin: 1rem;">
+                    <mat-icon>send</mat-icon> {{ loading ? 'Loading' : 'Send magic link' }}
+                </button>
+            </mat-card-actions>
+        </form>
+    </mat-card>
+</div>

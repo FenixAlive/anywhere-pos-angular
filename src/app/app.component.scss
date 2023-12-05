@@ -1,0 +1,26 @@
+.example-spacer {
+    flex: 1 1 auto;
+}
+
+.nav-menu {
+    display: flex;
+    flex: 1 1 auto;
+    flex-direction: row;
+    align-items: center;
+    justify-content: end;
+    gap: 1rem;
+}
+
+li {
+    text-decoration: none;
+}
+
+ul {
+    list-style: none;
+}
+
+.logo {
+    width: 50px;
+    height: 50px;
+    overflow: hidden;
+}
