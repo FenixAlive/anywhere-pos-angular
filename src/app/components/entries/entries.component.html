@@ -1,7 +1,107 @@
-<main>
-    Register entries of inventory:
-    <form>
-        <input type="text">
-        <button>Send</button>
-    </form>
-</main>
+<div class="container">
+    <mat-card class="card">
+        <mat-card-header>
+            <mat-card-title
+                style="color: darkblue; display: flex; align-items: center; gap: 1rem;"><mat-icon>add_box</mat-icon>
+                Add entry to inventory</mat-card-title>
+        </mat-card-header>
+        <form [formGroup]="formGroup" (ngSubmit)="onSubmit()" class="form-widget">
+
+            <mat-card-content class="content">
+                <div class="bet-parent">
+                    <mat-form-field style="flex-grow: 3;">
+                        <mat-label>Name</mat-label>
+                        <input type="text" matInput formControlName="name">
+                        @if (formGroup.controls?.['name']?.hasError('required')) {
+                        <mat-error>input is <strong>required</strong></mat-error>
+                        }
+                    </mat-form-field>
+                    <mat-form-field class="bet-child">
+                        <mat-label>Identifier Code</mat-label>
+                        <input type="text" matInput formControlName="identifier_code">
+                        @if (formGroup.controls?.['identifier_code']?.hasError('required')) {
+                        <mat-error>input is <strong>required</strong></mat-error>
+                        }
+                    </mat-form-field>
+                </div>
+
+                <mat-form-field class="form-field">
+                    <mat-label>Description</mat-label>
+                    <input type="text" matInput formControlName="description">
+                    @if (formGroup.controls?.['description']?.hasError('required')) {
+                    <mat-error>input is <strong>required</strong></mat-error>
+                    }
+                </mat-form-field>
+                <div class="bet-parent">
+                    <mat-form-field class="bet-child">
+                        <mat-label>Price 1</mat-label>
+                        <input type="number" matInput formControlName="price_1">
+                        @if (formGroup.controls?.['price_1']?.hasError('required')) {
+                        <mat-error>input is <strong>required</strong></mat-error>
+                        }
+                    </mat-form-field>
+                    <mat-form-field class="bet-child">
+                        <mat-label>Price 2</mat-label>
+                        <input type="number" matInput formControlName="price_2">
+                        @if (formGroup.controls?.['price_2']?.hasError('required')) {
+                        <mat-error>input is <strong>required</strong></mat-error>
+                        }
+                    </mat-form-field>
+                    <mat-form-field class="bet-child">
+                        <mat-label>Price 3</mat-label>
+                        <input type="number" matInput formControlName="price_3">
+                        @if (formGroup.controls?.['price_3']?.hasError('required')) {
+                        <mat-error>input is <strong>required</strong></mat-error>
+                        }
+                    </mat-form-field>
+                </div>
+                <div class="bet-parent">
+                    <mat-form-field class="bet-child">
+                        <mat-label>Discount Amount</mat-label>
+                        <input type="number" matInput formControlName="discount_amount">
+                        @if (formGroup.controls?.['discount_amount']?.hasError('required')) {
+                        <mat-error>input is <strong>required</strong></mat-error>
+                        }
+                    </mat-form-field>
+                    <mat-form-field class="bet-child">
+                        <mat-label>Discount %</mat-label>
+                        <input type="number" matInput formControlName="discount_percentage">
+                        @if (formGroup.controls?.['discount_percentage']?.hasError('required')) {
+                        <mat-error>input is <strong>required</strong></mat-error>
+                        }
+                    </mat-form-field>
+                </div>
+                <div class="bet-parent">
+                    <mat-form-field class="bet-child">
+                        <mat-label>Tax 1 %</mat-label>
+                        <input type="number" matInput formControlName="tax_1_percentage">
+                        @if (formGroup.controls?.['tax_1_percentage']?.hasError('required')) {
+                        <mat-error>input is <strong>required</strong></mat-error>
+                        }
+                    </mat-form-field>
+                    <mat-form-field class="bet-child">
+                        <mat-label>Tax 2 %</mat-label>
+                        <input type="number" matInput formControlName="tax_2_percentage">
+                        @if (formGroup.controls?.['tax_2_percentage']?.hasError('required')) {
+                        <mat-error>input is <strong>required</strong></mat-error>
+                        }
+                    </mat-form-field>
+                    <mat-form-field class="bet-child">
+                        <mat-label>Tax 3 %</mat-label>
+                        <input type="number" matInput formControlName="tax_3_percentage">
+                        @if (formGroup.controls?.['tax_3_percentage']?.hasError('required')) {
+                        <mat-error>input is <strong>required</strong></mat-error>
+                        }
+                    </mat-form-field>
+                </div>
+
+            </mat-card-content>
+            <mat-card-actions align="end">
+                <button mat-stroked-button color="primary" type="submit" class="button block" [disabled]="loading"
+                    style="margin: 1rem;">
+                    <mat-icon>send</mat-icon> {{ loading ? 'Loading' : 'Send' }}
+                </button>
+            </mat-card-actions>
+        </form>
+    </mat-card>
+</div>

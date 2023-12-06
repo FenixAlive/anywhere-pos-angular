@@ -28,11 +28,31 @@ export interface Entry {
     id?: number
     created_at?: Date
     updated_at?: Date
-    supplier_id?: number
     user_id?: string
     description?: string
     type?: 'purchase' | 'adjustment'
+    quantity?: number
+    price?: number
+    subtotal?: number
+    discount?: number
+    tax_1?: number
+    tax_2?: number
+    tax_3?: number
+    total?: number
     article_id?: number
+    purchase_id?: number
+}
+
+export interface Purchase {
+    id?: number
+    created_at?: Date
+    subtotal?: number
+    discount?: number
+    tax_1?: number
+    tax_2?: number
+    tax_3?: number
+    total?: number
+    supplier_id?: number
 }
 
 export interface Output {
@@ -50,7 +70,6 @@ export interface Output {
     tax_2?: number
     tax_3?: number
     total?: number
-    client_id?: number
     article_id?: number
     sale_id?: number
 }
@@ -64,6 +83,7 @@ export interface Sale {
     tax_2?: number
     tax_3?: number
     total?: number
+    client_id?: number
 }
 
 export interface Client {
