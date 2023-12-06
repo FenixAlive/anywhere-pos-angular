@@ -17,7 +17,6 @@ export class PosComponent {
   ) {
   }
   getArticles() {
-    console.log("called")
     this.supabase.getArticles(this.term).then(res => console.log(res?.count, res?.data))
   }
 }

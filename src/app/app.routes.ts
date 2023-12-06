@@ -8,6 +8,7 @@ import { ArticlesComponent } from './components/articles/articles.component';
 import { OutputsComponent } from './components/outputs/outputs.component';
 
 export const routes: Routes = [
+    { path: '', component: WelcomeComponent, pathMatch: 'full' },
     { path: 'pos', component: PosComponent, canActivate: [authGuardGuard] },
     { path: 'auth', component: AuthComponent },
     { path: 'entries', component: EntriesComponent, canActivate: [authGuardGuard] },
