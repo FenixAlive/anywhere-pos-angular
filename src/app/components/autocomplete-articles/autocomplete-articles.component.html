@@ -1,1 +1,21 @@
-<p>autocomplete-articles works!</p>
+<form class="f-width">
+    <mat-form-field class="f-width">
+        <mat-label>Article</mat-label>
+        <input type="text" matInput [formControl]="myControl" [matAutocomplete]="auto">
+        <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete" [displayWith]="displayFn"
+            (optionSelected)="selected.emit($event?.option?.value)">
+            @for (option of filteredOptions | async; track option) {
+            <mat-option [value]="option">
+                <div class="bet-parent">
+                    <div class="bet-child">({{option?.identifier_code}})</div>
+                    <div class="bet-child"> {{option?.name}}</div>
+                    <div class="bet-child">Qty: {{option?.quantity}}</div>
+                    <div class="bet-child">$ {{option?.price_1}}</div>
+                    <div class="bet-child">{{option?.description}}</div>
+                </div>
+
+            </mat-option>
+            }
+        </mat-autocomplete>
+    </mat-form-field>
+</form>

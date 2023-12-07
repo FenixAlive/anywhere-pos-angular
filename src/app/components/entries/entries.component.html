@@ -8,6 +8,7 @@
         <form [formGroup]="formGroup" (ngSubmit)="onSubmit()" class="form-widget">
 
             <mat-card-content class="content">
+                <app-autocomplete-articles (selected)="articleSelected($event)"></app-autocomplete-articles>
                 <div class="bet-parent">
 
 

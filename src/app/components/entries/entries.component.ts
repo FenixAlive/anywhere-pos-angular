@@ -7,11 +7,12 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { Article } from '../../models/supabase.model';
 import { SupabaseService } from '../../services/supabase.service';
+import { AutocompleteArticlesComponent } from '../autocomplete-articles/autocomplete-articles.component';
 
 @Component({
   selector: 'app-entries',
   standalone: true,
-  imports: [FormsModule, ReactiveFormsModule, MatCardModule, MatButtonModule, MatIconModule, MatInputModule, MatFormFieldModule],
+  imports: [FormsModule, ReactiveFormsModule, MatCardModule, MatButtonModule, MatIconModule, MatInputModule, MatFormFieldModule, AutocompleteArticlesComponent],
   templateUrl: './entries.component.html',
   styleUrl: './entries.component.scss'
 })
@@ -61,5 +62,9 @@ export class EntriesComponent {
       this.createForm()
       this.loading = false
     }
+  }
+
+  articleSelected(event: Article) {
+    console.log(event)
   }
 }

@@ -9,6 +9,7 @@ import {
 } from '@supabase/supabase-js'
 import { environment } from '../../../environments/environment'
 import { Article, Client, Entry, Output, Profile, Sale, Supplier } from '../models/supabase.model'
+import { BehaviorSubject, Subject } from 'rxjs'
 
 
 
@@ -19,13 +20,18 @@ import { Article, Client, Entry, Output, Profile, Sale, Supplier } from '../mode
 export class SupabaseService {
   private supabase!: SupabaseClient
   _session: AuthSession | null = null
+  articles = new BehaviorSubject([] as Article[])
 
   constructor() {
     this.initialize()
   }
 
-  initialize() {
+  async initialize() {
     this.supabase = createClient(environment.supabaseUrl, environment.supabaseKey)
+    const resp = await this.getArticles()
+    if (resp?.data) {
+      this.articles.next(resp.data as Article[])
+    }
   }
 
   get session() {
