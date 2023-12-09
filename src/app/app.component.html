@@ -8,7 +8,7 @@
     <mat-icon>more_vert</mat-icon>
   </button>
   <mat-menu #menu="matMenu">
-    <a mat-menu-item routerLink="/pos"><mat-icon>point_of_sale</mat-icon> POS</a>
+    <a mat-menu-item routerLink="/pos"><mat-icon>point_of_sale</mat-icon> Sell</a>
     <button mat-menu-item [matMenuTriggerFor]="inventory"><mat-icon>inventory</mat-icon> Inventory</button>
     <button mat-menu-item [matMenuTriggerFor]="catalogs"><mat-icon>menu_book</mat-icon> Catalogs</button>
 
@@ -20,8 +20,9 @@
     }
   </mat-menu>
   <mat-menu #inventory="matMenu">
-    <a mat-menu-item routerLink="/entries" routerLinkActive="active"><mat-icon>add_box</mat-icon> Entries</a>
-    <a mat-menu-item routerLink="/outputs" routerLinkActive="active"><mat-icon>sell</mat-icon> Outputs</a>
+    <a mat-menu-item routerLink="/purchase" routerLinkActive="active"><mat-icon>add_box</mat-icon> Purchase</a>
+    <a mat-menu-item routerLink="/entry" routerLinkActive="active"><mat-icon>add_box</mat-icon> Entry</a>
+    <a mat-menu-item routerLink="/outputs" routerLinkActive="active"><mat-icon>sell</mat-icon> Output</a>
   </mat-menu>
   <mat-menu #catalogs="matMenu">
     <a mat-menu-item routerLink="/articles" routerLinkActive="active"><mat-icon>assignment</mat-icon> Articles</a>
