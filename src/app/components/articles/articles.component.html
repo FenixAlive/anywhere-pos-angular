@@ -5,9 +5,9 @@
                 style="color: darkblue; display: flex; align-items: center; gap: 1rem;"><mat-icon>post_add</mat-icon>
                 Add Article</mat-card-title>
         </mat-card-header>
-        <form [formGroup]="articlesForm" (ngSubmit)="onSubmit()" class="form-widget">
 
-            <mat-card-content class="content">
+        <mat-card-content class="content">
+            <form [formGroup]="articlesForm" class="form-widget">
                 <div class="bet-parent">
                     <mat-form-field style="flex-grow: 3;">
                         <mat-label>Name</mat-label>
@@ -95,13 +95,13 @@
                     </mat-form-field>
                 </div>
 
-            </mat-card-content>
-            <mat-card-actions align="end">
-                <button mat-stroked-button color="primary" type="submit" class="button block" [disabled]="loading"
-                    style="margin: 1rem;">
-                    <mat-icon>send</mat-icon> {{ loading ? 'Loading' : 'Send' }}
-                </button>
-            </mat-card-actions>
-        </form>
+            </form>
+        </mat-card-content>
+        <mat-card-actions align="end">
+            <button mat-stroked-button color="primary" type="submit" class="button block"
+                [disabled]="loading || !articlesForm.valid" style="margin: 1rem;" (click)="onSubmit()">
+                <mat-icon>send</mat-icon> {{ loading ? 'Loading' : 'Send' }}
+            </button>
+        </mat-card-actions>
     </mat-card>
 </div>

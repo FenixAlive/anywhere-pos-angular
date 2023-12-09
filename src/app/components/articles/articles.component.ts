@@ -27,9 +27,9 @@ export class ArticlesComponent {
   createArticleForm() {
     this.articlesForm = this.formBuilder.group({
       name: [null, [Validators.required]],
-      identifier_code: [null],
+      identifier_code: [null, [Validators.required]],
       description: [null],
-      price_1: [0, [Validators.required]],
+      price_1: [null, [Validators.required]],
       price_2: [0],
       price_3: [0],
       discount_amount: [0],
