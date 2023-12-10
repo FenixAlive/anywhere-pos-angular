@@ -1,7 +1,8 @@
 <form class="f-width">
     <mat-form-field class="f-width">
         <mat-label>Article</mat-label>
-        <input type="text" matInput [formControl]="myControl" [matAutocomplete]="auto">
+        <input #articleInput #autocompleteTrigger="matAutocompleteTrigger" type="text" matInput
+            [formControl]="myControl" [matAutocomplete]="auto">
         <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete" [displayWith]="displayFn"
             (optionSelected)="selected.emit($event?.option?.value)">
             @for (option of filteredOptions | async; track option) {

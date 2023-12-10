@@ -1,1 +1,28 @@
-<p>registy works!</p>
+<mat-card style="width: 100%;">
+    <mat-card-content>
+        <form [formGroup]="registryForm" style="width: 100%;">
+            <div class="row">
+                <mat-form-field class="w-1">
+                    <mat-label>Qty</mat-label>
+                    <input #qtyInput type="number" matInput formControlName="quantity"
+                        (keyup)="calculateTotals(registryForm)">
+                </mat-form-field>
+                <mat-form-field class="w-3">
+                    <mat-label>Name</mat-label>
+                    <input type="text" matInput formControlName="name">
+                </mat-form-field>
+                <mat-form-field class="w-1">
+                    <mat-label>Price</mat-label>
+                    <input type="number" matInput formControlName="price" (keyup)="calculateTotals(registryForm)">
+                </mat-form-field>
+                <mat-form-field class="w-1">
+                    <mat-label>Total</mat-label>
+                    <input type="number" matInput formControlName="total">
+                </mat-form-field>
+                <button mat-icon-button>
+                    <mat-icon>more_vert</mat-icon>
+                </button>
+            </div>
+        </form>
+    </mat-card-content>
+</mat-card>

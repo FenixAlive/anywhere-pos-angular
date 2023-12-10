@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { AfterViewChecked, Component, ElementRef, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
@@ -15,14 +15,22 @@ import { Article } from '../../models/supabase.model';
   templateUrl: './articles.component.html',
   styleUrl: './articles.component.scss'
 })
-export class ArticlesComponent {
+export class ArticlesComponent implements AfterViewChecked{
   loading = false
   articlesForm!: FormGroup
+  @ViewChild('focusInput') focusInput!: ElementRef
 
   constructor(
     private readonly supabase: SupabaseService,
     private readonly formBuilder: FormBuilder
   ) { this.createArticleForm() }
+
+  ngAfterViewChecked() {
+    setTimeout(()=>{
+      this.focusInput?.nativeElement?.focus()
+      this.articlesForm.markAsUntouched()
+    })
+  }
 
   createArticleForm() {
     this.articlesForm = this.formBuilder.group({

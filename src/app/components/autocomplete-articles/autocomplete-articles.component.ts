@@ -1,5 +1,5 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { AfterViewInit, Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { MatAutocompleteModule, MatAutocompleteTrigger } from '@angular/material/autocomplete';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
@@ -23,12 +23,14 @@ import { Article } from '../../models/supabase.model';
   templateUrl: './autocomplete-articles.component.html',
   styleUrl: './autocomplete-articles.component.scss'
 })
-export class AutocompleteArticlesComponent implements OnInit {
+export class AutocompleteArticlesComponent implements OnInit, AfterViewInit {
   @Input() keepOnSelect = false
   @Output() selected = new EventEmitter()
   myControl = new FormControl('');
   options: Article[] = [];
   filteredOptions!: Observable<Article[]>;
+  @ViewChild('articleInput') articleInput!: ElementRef
+  @ViewChild(MatAutocompleteTrigger) autocompleteTrigger!: MatAutocompleteTrigger;
 
   constructor(private readonly supabase: SupabaseService) {
     this.supabase.articles.subscribe(articles => this.options = articles)
@@ -39,6 +41,16 @@ export class AutocompleteArticlesComponent implements OnInit {
       startWith(''),
       map(value => this._filter(value || '')),
     );
+
+  }
+
+  ngAfterViewInit() {
+    setTimeout(
+      () => {
+        this.articleInput.nativeElement.focus()
+        this.autocompleteTrigger.closePanel()
+      }, 50
+    )
   }
 
   private _filter(value: string): Article[] {

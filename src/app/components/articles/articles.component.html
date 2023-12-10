@@ -11,7 +11,7 @@
                 <div class="bet-parent">
                     <mat-form-field style="flex-grow: 3;">
                         <mat-label>Name</mat-label>
-                        <input type="text" matInput formControlName="name">
+                        <input #focusInput type="text" matInput formControlName="name">
                         @if (articlesForm.controls?.['name']?.hasError('required')) {
                         <mat-error>input is <strong>required</strong></mat-error>
                         }

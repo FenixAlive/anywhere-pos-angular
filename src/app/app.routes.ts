@@ -16,6 +16,6 @@ export const routes: Routes = [
     { path: 'purchase', component: PurchasesComponent, canActivate: [authGuardGuard] },
     { path: 'output', component: OutputsComponent, canActivate: [authGuardGuard] },
     { path: 'articles', component: ArticlesComponent, canActivate: [authGuardGuard] },
-    { path: '', component: WelcomeComponent, pathMatch: 'full' },
+    { path: '', component: WelcomeComponent },
     { path: '**', component: WelcomeComponent }
 ];

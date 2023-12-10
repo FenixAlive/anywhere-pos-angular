@@ -3,27 +3,26 @@
         <mat-card-header>
             <mat-card-title
                 style="color: darkblue; display: flex; align-items: center; gap: 1rem;"><mat-icon>add_box</mat-icon>
-                Add entry to inventory</mat-card-title>
+                Add entry adjustment to inventory</mat-card-title>
         </mat-card-header>
-        <form [formGroup]="formGroup" (ngSubmit)="onSubmit()" class="form-widget">
-
-            <mat-card-content class="content">
-                <app-autocomplete-articles (selected)="articleSelected($event)"></app-autocomplete-articles>
-                <div class="bet-parent">
-
-
-                    - purchase or adjustment
-                    - if purchase fill purchase data and add entries option
-                    - for entry: autocomplete article
-                </div>
-
-            </mat-card-content>
-            <mat-card-actions align="end">
-                <button mat-stroked-button color="primary" type="submit" class="button block" [disabled]="loading"
-                    style="margin: 1rem;">
-                    <mat-icon>send</mat-icon> {{ loading ? 'Loading' : 'Send' }}
-                </button>
-            </mat-card-actions>
-        </form>
+        <mat-card-content class="content">
+            <app-autocomplete-articles (selected)="articleSelected($event)"></app-autocomplete-articles>
+            <div class="">
+                <app-registy #registy [article]="article" whichPrice="price_1" (values)="registryChange($event)"/>
+            </div>
+        </mat-card-content>
+            <mat-form-field style="margin: 1rem;">
+                <mat-label>Adjustment Date</mat-label>
+                <input matInput [matDatepicker]="picker" [(ngModel)]="created">
+                <mat-hint>MM/DD/YYYY</mat-hint>
+                <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-datepicker #picker></mat-datepicker>
+              </mat-form-field>
+        <mat-card-actions align="end">
+            <button mat-stroked-button color="primary" class="button block" (click)="onSubmit()"
+                [disabled]="loading || !article || formGroup.invalid" style="margin: 1rem;">
+                <mat-icon>send</mat-icon> {{ loading ? 'Loading' : 'Send' }}
+            </button>
+        </mat-card-actions>
     </mat-card>
 </div>
