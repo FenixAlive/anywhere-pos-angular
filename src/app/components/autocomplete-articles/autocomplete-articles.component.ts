@@ -3,7 +3,7 @@ import { MatAutocompleteModule, MatAutocompleteTrigger } from '@angular/material
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
-import { AsyncPipe } from '@angular/common';
+import { AsyncPipe, CurrencyPipe, DecimalPipe } from '@angular/common';
 
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -19,6 +19,8 @@ import { Article } from '../../models/supabase.model';
     MatAutocompleteModule,
     ReactiveFormsModule,
     AsyncPipe,
+    CurrencyPipe,
+    DecimalPipe
   ],
   templateUrl: './autocomplete-articles.component.html',
   styleUrl: './autocomplete-articles.component.scss'
@@ -45,13 +47,18 @@ export class AutocompleteArticlesComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit() {
+    this.setFocus()
+  }
+ 
+  setFocus(){
     setTimeout(
       () => {
         this.articleInput.nativeElement.focus()
         this.autocompleteTrigger.closePanel()
-      }, 50
+      }, 0
     )
   }
+
 
   private _filter(value: string): Article[] {
     if (typeof value !== 'string') return this.options

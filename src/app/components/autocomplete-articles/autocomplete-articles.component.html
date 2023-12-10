@@ -4,15 +4,14 @@
         <input #articleInput #autocompleteTrigger="matAutocompleteTrigger" type="text" matInput
             [formControl]="myControl" [matAutocomplete]="auto">
         <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete" [displayWith]="displayFn"
-            (optionSelected)="selected.emit($event?.option?.value)">
+            (optionSelected)="selected.emit($event.option?.value)">
             @for (option of filteredOptions | async; track option) {
             <mat-option [value]="option">
                 <div class="bet-parent">
-                    <div class="bet-child">({{option?.identifier_code}})</div>
-                    <div class="bet-child"> {{option?.name}}</div>
-                    <div class="bet-child">Qty: {{option?.quantity}}</div>
-                    <div class="bet-child">$ {{option?.price_1}}</div>
-                    <div class="bet-child">{{option?.description}}</div>
+                    <div class="bet-child w-2">({{option?.identifier_code}})</div>
+                    <div class="bet-child w-3"> {{option?.name}}</div>
+                    <div class="bet-child w-1">Qty: {{option?.quantity | number}}</div>
+                    <div class="bet-child w-1">{{option?.price_1 | currency}}</div>
                 </div>
 
             </mat-option>

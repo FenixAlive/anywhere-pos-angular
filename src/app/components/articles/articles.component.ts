@@ -1,4 +1,4 @@
-import { AfterViewChecked, Component, ElementRef, ViewChild } from '@angular/core';
+import { Component, ElementRef, ViewChild, OnInit, AfterViewInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
@@ -15,17 +15,28 @@ import { Article } from '../../models/supabase.model';
   templateUrl: './articles.component.html',
   styleUrl: './articles.component.scss'
 })
-export class ArticlesComponent implements AfterViewChecked{
+export class ArticlesComponent implements OnInit, AfterViewInit{
   loading = false
   articlesForm!: FormGroup
   @ViewChild('focusInput') focusInput!: ElementRef
+  articleList!: Article[]
 
   constructor(
     private readonly supabase: SupabaseService,
     private readonly formBuilder: FormBuilder
   ) { this.createArticleForm() }
 
-  ngAfterViewChecked() {
+  ngOnInit(): void {
+    this.supabase.articles.subscribe(data =>{
+      this.articleList = data
+    })
+  }
+
+  ngAfterViewInit() {
+    this.setFocus()
+  }
+  
+  setFocus(){
     setTimeout(()=>{
       this.focusInput?.nativeElement?.focus()
       this.articlesForm.markAsUntouched()
@@ -61,6 +72,9 @@ export class ArticlesComponent implements AfterViewChecked{
       const res = await this.supabase.postArticle(article)
       if (res?.error) throw res.error
       alert('article sent correctly!')
+      const resp = await this.supabase.getArticles()
+      if(resp?.data)
+      this.supabase.articles.next(resp.data)
     } catch (error) {
       if (error instanceof Error) {
         alert(error.message)
@@ -68,6 +82,7 @@ export class ArticlesComponent implements AfterViewChecked{
     } finally {
       this.createArticleForm()
       this.loading = false
+      this.setFocus()
     }
   }
 }

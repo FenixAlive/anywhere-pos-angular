@@ -1,5 +1,5 @@
-import { Component} from '@angular/core';
-import { FormsModule, ReactiveFormsModule, FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { Component, ViewChild} from '@angular/core';
+import { FormsModule, ReactiveFormsModule, FormGroup} from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -23,6 +23,7 @@ export class EntriesComponent {
   formGroup!: FormGroup
   article!: Article
   created = new Date()
+  @ViewChild('articleAuto') articleAuto!: AutocompleteArticlesComponent
 
   constructor(
     private readonly supabase: SupabaseService,
@@ -30,6 +31,7 @@ export class EntriesComponent {
 
   registryChange(registry: FormGroup){
     this.formGroup = registry;
+    console.log(this.formGroup)
   }
 
   async onSubmit(): Promise<void> {
@@ -46,7 +48,7 @@ export class EntriesComponent {
         tax_2: this.formGroup.controls?.['tax_2']?.value,
         tax_3: this.formGroup.controls?.['tax_3']?.value,
         total: this.formGroup.controls?.['total']?.value,
-        article_id: this.article.id,
+        article_id: this.article?.id,
         created_at: this.created
       }
 
@@ -59,6 +61,8 @@ export class EntriesComponent {
       }
     } finally {
       this.loading = false
+      this.article = {}
+      this.articleAuto.setFocus()
     }
   }
 

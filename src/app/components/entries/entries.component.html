@@ -6,7 +6,7 @@
                 Add entry adjustment to inventory</mat-card-title>
         </mat-card-header>
         <mat-card-content class="content">
-            <app-autocomplete-articles (selected)="articleSelected($event)"></app-autocomplete-articles>
+            <app-autocomplete-articles #articleAuto (selected)="articleSelected($event)"></app-autocomplete-articles>
             <div class="">
                 <app-registy #registy [article]="article" whichPrice="price_1" (values)="registryChange($event)"/>
             </div>
@@ -20,7 +20,7 @@
               </mat-form-field>
         <mat-card-actions align="end">
             <button mat-stroked-button color="primary" class="button block" (click)="onSubmit()"
-                [disabled]="loading || !article || formGroup.invalid" style="margin: 1rem;">
+                [disabled]="loading || !article || formGroup.invalid || !formGroup.controls?.['name']?.value" style="margin: 1rem;">
                 <mat-icon>send</mat-icon> {{ loading ? 'Loading' : 'Send' }}
             </button>
         </mat-card-actions>

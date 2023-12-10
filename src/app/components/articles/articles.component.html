@@ -104,4 +104,12 @@
             </button>
         </mat-card-actions>
     </mat-card>
+    @for (item of articleList; track item.id) {
+        <mat-card style="display: flex; flex-direction: row; justify-content: space-between;">
+        <div style="width: 20%;">({{item?.identifier_code}})</div>
+        <div style="width: 40%;">{{item?.name}}</div>
+        <div style="width: 12%;"> Qty: {{item?.quantity}}</div>
+        <div style="flex-grow: 12%;">$ {{item?.price_1}}</div>
+        </mat-card>
+    }
 </div>
