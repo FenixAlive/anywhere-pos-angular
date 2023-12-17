@@ -11,6 +11,7 @@ import { AutocompleteArticlesComponent } from '../autocomplete-articles/autocomp
 import { RegistyComponent } from '../registy/registy.component';
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
+import { HelperService } from '../../services/helper.service';
 @Component({
   selector: 'app-entries',
   standalone: true,
@@ -27,11 +28,11 @@ export class EntriesComponent {
 
   constructor(
     private readonly supabase: SupabaseService,
+    private readonly helper: HelperService
   ) { }
 
   registryChange(registry: FormGroup){
     this.formGroup = registry;
-    console.log(this.formGroup)
   }
 
   async onSubmit(): Promise<void> {
@@ -54,10 +55,13 @@ export class EntriesComponent {
 
       const res = await this.supabase.postEntry(entry)
       if (res?.error) throw res.error
-      alert('entry sent correctly!')
+      const invRes = await this.supabase.updateInventory(this.formGroup.controls?.['quantity']?.value, this.article)
+      if(invRes?.error) throw invRes.error
+      this.helper.successMessage('Entry sent correctly!')
+      await this.supabase.getArticles()
     } catch (error) {
       if (error instanceof Error) {
-        alert(error.message)
+        this.helper.ErrorMessage(error.message)
       }
     } finally {
       this.loading = false

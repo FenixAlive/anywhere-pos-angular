@@ -1,3 +1,5 @@
+import { FormGroup } from "@angular/forms"
+
 export interface Profile {
     id?: string
     username: string
@@ -109,3 +111,4 @@ export interface Supplier {
     notes?: string
     user_id?: string
 }
+

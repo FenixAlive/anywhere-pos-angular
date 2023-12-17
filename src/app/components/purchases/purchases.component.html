@@ -1,1 +1,61 @@
-<p>purchases works!</p>
+<div class="container">
+    <mat-card style="width: 98vw;">
+        <mat-card-header>
+            <mat-card-title
+                style="color: darkblue; display: flex; align-items: center; gap: 1rem;"><mat-icon>add_box</mat-icon>
+                Add Purchase</mat-card-title>
+        </mat-card-header>
+        
+        <mat-card-content class="content">
+            <app-autocomplete-articles #articleAuto (selected)="articleSelected($event)"></app-autocomplete-articles>
+            <div class="">
+                @for (article of articles | keyvalue ; track article.key) {
+                    <app-registy #registy [article]="article.value.article" whichPrice="cost" (values)="registryChange($event, article.key)" [canDeleteMyself]="true" (deletedMyself)="deleteArticle(article.key)"/>
+                }
+            </div>
+        </mat-card-content>
+        <mat-form-field class="input-dis" style="margin: 1rem;">
+            <mat-label>Purchase Date</mat-label>
+            <input matInput [matDatepicker]="picker" [(ngModel)]="purchase.created_at">
+            <mat-hint>MM/DD/YYYY</mat-hint>
+            <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
+        <mat-form-field class="input-dis">
+                <mat-label>Subtotal</mat-label>
+                <input matInput [(ngModel)]="purchase.subtotal" disabled>
+        </mat-form-field>
+        <mat-form-field class="input-dis">
+            <mat-label>Discount</mat-label>
+            <input matInput [(ngModel)]="purchase.discount" disabled>
+        </mat-form-field>
+        @if(purchase.tax_1){
+            <mat-form-field class="input-dis">
+                <mat-label>Tax 1</mat-label>
+                <input matInput [(ngModel)]="purchase.tax_1" disabled>
+        </mat-form-field>
+        }
+        @if(purchase.tax_2){
+            <mat-form-field class="input-dis">
+                <mat-label>Tax 2</mat-label>
+                <input matInput [(ngModel)]="purchase.tax_2" disabled>
+        </mat-form-field>
+        }
+        @if(purchase.tax_3){
+            <mat-form-field class="input-dis">
+                <mat-label>Tax 3</mat-label>
+                <input matInput [(ngModel)]="purchase.tax_3" disabled>
+        </mat-form-field>
+        }   
+        <mat-form-field class="input-dis">
+            <mat-label>Total</mat-label>
+            <input matInput [(ngModel)]="purchase.total" disabled>
+        </mat-form-field>
+        <mat-card-actions align="end">
+            <button mat-stroked-button color="primary" class="button block" (click)="onSubmit()"
+                [disabled]="loading" style="margin: 1rem;">
+                <mat-icon>send</mat-icon> {{ loading ? 'Loading' : 'Send' }}
+            </button>
+        </mat-card-actions>
+    </mat-card>
+</div>

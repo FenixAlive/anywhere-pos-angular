@@ -8,7 +8,7 @@ import {
   User,
 } from '@supabase/supabase-js'
 import { environment } from '../../../environments/environment'
-import { Article, Client, Entry, Output, Profile, Sale, Supplier } from '../models/supabase.model'
+import { Article, Client, Entry, Output, Profile, Purchase, Sale, Supplier } from '../models/supabase.model';
 import { BehaviorSubject, Subject } from 'rxjs'
 
 
@@ -93,6 +93,15 @@ export class SupabaseService {
     return this.supabase.from('articles').insert(article)
   }
 
+  updateArticle(article: Article){
+    return this.supabase.from('articles').update(article).eq('id', article.id)
+  }
+
+  updateInventory(amount: number, article: Article){
+    article.quantity = (article?.quantity ?? 0 )+ amount
+    return this.updateArticle({id: article.id, quantity: article.quantity})
+  }
+
   postOutput(output: Output) {
     return this.supabase.from('outputs').insert(output)
   }
@@ -105,6 +114,10 @@ export class SupabaseService {
     return this.supabase.from('entries').insert(entry)
   }
 
+  postPurchase(purchase: Purchase) {
+    return this.supabase.from('purchases').insert(purchase)
+  }
+
   postSupplier(supplier: Supplier) {
     return this.supabase.from('suppliers').insert(supplier)
   }
@@ -112,4 +125,5 @@ export class SupabaseService {
   postClient(client: Client) {
     return this.supabase.from('clients').insert(client)
   }
+
 }

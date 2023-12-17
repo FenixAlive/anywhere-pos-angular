@@ -8,7 +8,7 @@
         <mat-card-content class="content">
             <app-autocomplete-articles #articleAuto (selected)="articleSelected($event)"></app-autocomplete-articles>
             <div class="">
-                <app-registy #registy [article]="article" whichPrice="price_1" (values)="registryChange($event)"/>
+                <app-registy #registy [article]="article" whichPrice="cost" (values)="registryChange($event)"/>
             </div>
         </mat-card-content>
             <mat-form-field style="margin: 1rem;">
@@ -20,7 +20,7 @@
               </mat-form-field>
         <mat-card-actions align="end">
             <button mat-stroked-button color="primary" class="button block" (click)="onSubmit()"
-                [disabled]="loading || !article || formGroup.invalid || !formGroup.controls?.['name']?.value" style="margin: 1rem;">
+                [disabled]="loading || !article || formGroup.invalid || !formGroup.controls?.['name']?.value || (formGroup.controls?.['quantity']?.value < 1)" style="margin: 1rem;">
                 <mat-icon>send</mat-icon> {{ loading ? 'Loading' : 'Send' }}
             </button>
         </mat-card-actions>

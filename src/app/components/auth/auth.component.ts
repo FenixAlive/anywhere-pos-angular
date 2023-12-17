@@ -7,6 +7,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { Router } from '@angular/router';
+import { HelperService } from '../../services/helper.service';
 
 @Component({
   selector: 'app-auth',
@@ -25,7 +26,8 @@ export class AuthComponent implements OnInit {
   constructor(
     private readonly supabase: SupabaseService,
     private readonly formBuilder: FormBuilder,
-    private readonly router: Router
+    private readonly router: Router,
+    private readonly helper: HelperService
   ) { }
 
   ngOnInit() {
@@ -47,10 +49,10 @@ export class AuthComponent implements OnInit {
       const email = this.signInForm.value.email as string
       const res = await this.supabase.signIn(email)
       if (res?.error) throw res.error
-      alert('Check your email for the login link!')
+      this.helper.successMessage('Check your email for the login link!')
     } catch (error) {
       if (error instanceof Error) {
-        alert(error.message)
+        this.helper.ErrorMessage(error.message)
       }
     } finally {
       this.signInForm.reset()

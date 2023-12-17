@@ -7,6 +7,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { SupabaseService } from '../../services/supabase.service';
 import { Article } from '../../models/supabase.model';
+import { HelperService } from '../../services/helper.service';
 
 @Component({
   selector: 'app-articles',
@@ -23,7 +24,8 @@ export class ArticlesComponent implements OnInit, AfterViewInit{
 
   constructor(
     private readonly supabase: SupabaseService,
-    private readonly formBuilder: FormBuilder
+    private readonly formBuilder: FormBuilder,
+    private readonly helper: HelperService
   ) { this.createArticleForm() }
 
   ngOnInit(): void {
@@ -71,13 +73,13 @@ export class ArticlesComponent implements OnInit, AfterViewInit{
       })
       const res = await this.supabase.postArticle(article)
       if (res?.error) throw res.error
-      alert('article sent correctly!')
+      this.helper.successMessage('article sent correctly!')
       const resp = await this.supabase.getArticles()
       if(resp?.data)
       this.supabase.articles.next(resp.data)
     } catch (error) {
       if (error instanceof Error) {
-        alert(error.message)
+        this.helper.ErrorMessage(error.message)
       }
     } finally {
       this.createArticleForm()

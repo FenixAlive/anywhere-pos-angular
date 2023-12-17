@@ -18,8 +18,10 @@ export class RegistyComponent implements OnChanges {
   loading = false
   registryForm!: FormGroup
   @Input() article!: Article
-  @Input() whichPrice: 'price_1' | 'price_2' | 'price_3' = 'price_1'
+  @Input() whichPrice: 'price_1' | 'price_2' | 'price_3' | 'cost' = 'price_1'
+  @Input() canDeleteMyself: boolean | undefined = undefined
   @Output() values = new EventEmitter<FormGroup>()
+  @Output() deletedMyself = new EventEmitter<void>()
   @ViewChild('qtyInput') qtyInput!: ElementRef
 
   constructor(
@@ -30,7 +32,7 @@ export class RegistyComponent implements OnChanges {
     if (this.article) {
       this.fillArticleInfo(this.article, this.registryForm)
       this.calculateTotals(this.registryForm)
-      this.qtyInput.nativeElement.focus()
+      this.qtyInput?.nativeElement?.focus()
     }
   }
 
@@ -55,6 +57,7 @@ export class RegistyComponent implements OnChanges {
 
   fillArticleInfo(article: Article, form: FormGroup) {
     form.controls?.['name']?.setValue(article.name)
+    if(this.whichPrice !== 'cost')
     form.controls?.['price']?.setValue(article[(this.whichPrice ?? 'price_1') as keyof Article] ?? 0)
     form.controls?.['discount_amount']?.setValue(article.discount_amount ?? 0)
     form.controls?.['discount_percentage']?.setValue(article.discount_percentage ?? 0)
@@ -74,11 +77,16 @@ export class RegistyComponent implements OnChanges {
     form.controls?.['subtotal'].setValue(subtotal)
     const discountPercentage = parseFloat(form.value?.discount_percentage) ?? 0;
     const discountAmount = discountPercentage !== 0 ? subtotal * discountPercentage / 100 : parseFloat(form.value?.discount_amount) ?? 0;
+    form.controls?.['discount_amount'].setValue(discountAmount)
     const tax1 = isNaN(parseFloat(form.value?.tax_1_percentage)) ? 0 : parseFloat(form.value?.tax_1_percentage)
     const tax2 = isNaN(parseFloat(form.value?.tax_2_percentage)) ? 0 : parseFloat(form.value?.tax_2_percentage)
     const tax3 = isNaN(parseFloat(form.value?.tax_3_percentage)) ? 0 : parseFloat(form.value?.tax_3_percentage)
     const total = (subtotal - discountAmount) * ((tax1 + tax2 + tax3) / 100 + 1)
     form.controls?.['total'].setValue(total)
     this.values.emit(form)
+  }
+
+  deleteMyself(){
+    this.deletedMyself.emit()
   }
 }
