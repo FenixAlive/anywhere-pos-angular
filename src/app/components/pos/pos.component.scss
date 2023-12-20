@@ -3,3 +3,31 @@
     width: 98vw;
 
 }
+.form-field {
+    width: 100%;
+}
+
+.content {
+    display: flex;
+    flex-direction: column;
+}
+
+.bet-child {
+    flex-grow: 1;
+}
+
+.bet-parent {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    gap: 1rem;
+}
+.input-dis{
+    margin: 0 1rem;    
+}
+
+@media only screen and (max-width: 600px) {
+    .bet-parent {
+        flex-direction: column;
+    }
+}

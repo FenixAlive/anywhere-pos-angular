@@ -26,13 +26,12 @@ export interface Article {
     cost?: number
 }
 
-export interface Entry {
+export interface RegistryModel {
     id?: number
     created_at?: Date
     updated_at?: Date
     user_id?: string
     description?: string
-    type?: 'purchase' | 'adjustment'
     quantity?: number
     price?: number
     subtotal?: number
@@ -42,41 +41,19 @@ export interface Entry {
     tax_3?: number
     total?: number
     article_id?: number
+}
+
+export interface Entry extends RegistryModel{
+    type?: 'purchase' | 'adjustment'
     purchase_id?: number
 }
 
-export interface Purchase {
-    id?: number
-    created_at?: Date
-    subtotal?: number
-    discount?: number
-    tax_1?: number
-    tax_2?: number
-    tax_3?: number
-    total?: number
-    supplier_id?: number
-}
-
-export interface Output {
-    id?: number
-    created_at?: Date
-    updated_at?: Date
-    user_id?: string
-    description?: string
+export interface Output extends RegistryModel{
     type?: 'sale' | 'adjustment'
-    quantity?: number
-    price?: number
-    subtotal?: number
-    discount?: number
-    tax_1?: number
-    tax_2?: number
-    tax_3?: number
-    total?: number
-    article_id?: number
     sale_id?: number
 }
 
-export interface Sale {
+export interface MultipleMovement{
     id?: number
     created_at?: Date
     subtotal?: number
@@ -85,30 +62,31 @@ export interface Sale {
     tax_2?: number
     tax_3?: number
     total?: number
+}
+export interface Purchase extends MultipleMovement{
+    supplier_id?: number
+}
+
+
+export interface Sale extends MultipleMovement{
     client_id?: number
 }
 
-export interface Client {
+export interface ContactPerson{
     id?: number
     created_at?: Date
     updated_at?: Date
     user_id?: string
     name?: string
-    notes?: string
     address?: string
     phone?: string
     email?: string
+    notes?: string
 }
 
-export interface Supplier {
-    id?: number
-    created_at?: Date
-    updated_at?: Date
-    name?: string
-    address?: string
-    phone?: string
-    email?: string
-    notes?: string
-    user_id?: string
+export interface Client extends ContactPerson{   
+}
+
+export interface Supplier extends ContactPerson{
 }
 

@@ -106,20 +106,20 @@ export class PurchasesComponent {
       const tempDiscount = parseFloat(this.articles[article].form.controls?.['discount_amount'].value) 
       discount += isNaN(tempDiscount) ? 0 : tempDiscount
       const tempTax1 = parseFloat(this.articles[article].form.controls?.['tax_1_percentage'].value) 
-      tax1 += isNaN(tempTax1) ? 0 : tempTax1
+      tax1 += isNaN(tempTax1) ? 0 : tempTax1*(subtotal-discount)/100
       const tempTax2 = parseFloat(this.articles[article].form.controls?.['tax_2_percentage'].value) 
-      tax2 += isNaN(tempTax2) ? 0 : tempTax2
+      tax2 += isNaN(tempTax2) ? 0 : tempTax2*(subtotal-discount)/100
       const tempTax3 = parseFloat(this.articles[article].form.controls?.['tax_3_percentage'].value) 
-      tax3 += isNaN(tempTax3) ? 0 : tempTax3
+      tax3 += isNaN(tempTax3) ? 0 : tempTax3*(subtotal-discount)/100
       const tempTotal = parseFloat(this.articles[article].form.controls?.['total'].value) 
       total += isNaN(tempTotal) ? 0 : tempTotal
     }
-    this.purchase.subtotal = subtotal
+    this.purchase.subtotal =  Math.round((subtotal + Number.EPSILON) * 100) / 100
     this.purchase.discount = discount
-    this.purchase.tax_1 = tax1
-    this.purchase.tax_2 = tax2
-    this.purchase.tax_3 = tax3
-    this.purchase.total = total
+    this.purchase.tax_1 =  Math.round((tax1 + Number.EPSILON) * 100) / 100
+    this.purchase.tax_2 =  Math.round((tax2 + Number.EPSILON) * 100) / 100
+    this.purchase.tax_3 =  Math.round((tax3 + Number.EPSILON) * 100) / 100
+    this.purchase.total = Math.round((total + Number.EPSILON) * 100) / 100
   }
 
   articleSelected(event: Article) {

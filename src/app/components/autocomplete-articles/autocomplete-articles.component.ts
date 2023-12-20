@@ -65,7 +65,7 @@ export class AutocompleteArticlesComponent implements OnInit, AfterViewInit {
     const filterValue = value?.toLowerCase();
 
     return this.options.filter(option => {
-      return option?.name?.toLowerCase()?.includes(filterValue)
+      return option?.name?.toLowerCase()?.includes(filterValue) || option?.identifier_code?.toLowerCase()?.includes(filterValue)
     });
   }
 
