@@ -4,6 +4,7 @@
                 <mat-form-field class="w-1">
                     <mat-label>Qty</mat-label>
                     <input #qtyInput type="number" matInput formControlName="quantity" min="1"
+                    (keyup)="calculateTotals(registryForm)"
                         (change)="calculateTotals(registryForm)">
                 </mat-form-field>
                 <mat-form-field class="w-3">
@@ -12,13 +13,13 @@
                 </mat-form-field>
                 <mat-form-field class="w-1">
                     <mat-label>{{whichPrice === 'cost' ? 'Cost' : 'Price'}}</mat-label>
-                    <input type="number" matInput formControlName="price" (change)="calculateTotals(registryForm)" min="0">
+                    <input type="number" matInput formControlName="price" (change)="calculateTotals(registryForm)" min="0" (keyup)="calculateTotals(registryForm)">
                 </mat-form-field>
                 <mat-form-field class="w-1">
                     <mat-label>Total</mat-label>
                     <input type="number" matInput formControlName="total">
                 </mat-form-field>
-                <button mat-icon-button>
+                <button mat-icon-button (click)="openMore()">
                     <mat-icon>more_vert</mat-icon>
                 </button>
                 @if (canDeleteMyself) {
@@ -27,3 +28,70 @@
             </div>
         </form>
 </mat-card>
+<ng-template #moreDialog>
+    <h2 mat-dialog-title>More Details</h2>
+<mat-dialog-content>
+    <form [formGroup]="registryForm" style="">
+        <div class="row">
+            <mat-form-field class="w-3">
+                <mat-label>Discount Percentage</mat-label>
+                <input #qtyInput type="number" matInput formControlName="discount_percentage" min="0"
+                (keyup)="calculateTotals(registryForm)"
+                    (change)="calculateTotals(registryForm)">
+            </mat-form-field>
+            <mat-form-field class="w-3">
+                <mat-label>Discount Amount</mat-label>
+                <input #qtyInput type="number" matInput formControlName="discount_amount" min="0"
+                (keyup)="calculateTotals(registryForm)"
+                    (change)="calculateTotals(registryForm)">
+            </mat-form-field>
+          </div>
+          <div class="row">
+            <mat-form-field class="w-3">
+                <mat-label>Tax 1 Percentage</mat-label>
+                <input #qtyInput type="number" matInput formControlName="tax_1_percentage" min="0"
+                (keyup)="calculateTotals(registryForm)"
+                    (change)="calculateTotals(registryForm)">
+            </mat-form-field>
+            <mat-form-field class="w-3">
+                <mat-label>Tax 1 Amount</mat-label>
+                <input #qtyInput type="number" matInput formControlName="tax_1_amount" min="0"
+                (keyup)="calculateTotals(registryForm)"
+                    (change)="calculateTotals(registryForm)">
+            </mat-form-field>
+          </div>
+          <div class="row">
+            <mat-form-field class="w-3">
+                <mat-label>Tax 2 Percentage</mat-label>
+                <input #qtyInput type="number" matInput formControlName="tax_2_percentage" min="0"
+                (keyup)="calculateTotals(registryForm)"
+                    (change)="calculateTotals(registryForm)">
+            </mat-form-field>
+            <mat-form-field class="w-3">
+                <mat-label>Tax 2 Amount</mat-label>
+                <input #qtyInput type="number" matInput formControlName="tax_2_amount" min="0"
+                (keyup)="calculateTotals(registryForm)"
+                    (change)="calculateTotals(registryForm)">
+            </mat-form-field>
+          </div>
+          <div class="row">
+            <mat-form-field class="w-3">
+                <mat-label>Tax 3 Percentage</mat-label>
+                <input #qtyInput type="number" matInput formControlName="tax_3_percentage" min="0"
+                (keyup)="calculateTotals(registryForm)"
+                    (change)="calculateTotals(registryForm)">
+            </mat-form-field>
+            <mat-form-field class="w-3">
+                <mat-label>Tax 3 Amount</mat-label>
+                <input #qtyInput type="number" matInput formControlName="tax_3_amount" min="0"
+                (keyup)="calculateTotals(registryForm)"
+                    (change)="calculateTotals(registryForm)">
+            </mat-form-field>
+          </div>
+    </form>
+  
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close>Close</button>
+</mat-dialog-actions>
+</ng-template>
