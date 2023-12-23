@@ -90,3 +90,17 @@ export interface Client extends ContactPerson{
 export interface Supplier extends ContactPerson{
 }
 
+export interface Todo {
+ id?: number
+ created_at?: Date
+ todo: string
+ done: boolean
+}
+
+export interface TaxName{
+    id?: number
+    created_at?: Date
+    tax_type: 'tax_1' | 'tax_2' | 'tax_3'
+    tax_name: string
+}
+

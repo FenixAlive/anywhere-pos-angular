@@ -11,6 +11,7 @@
     <a mat-menu-item routerLink="/pos"><mat-icon>point_of_sale</mat-icon> Sell</a>
     <button mat-menu-item [matMenuTriggerFor]="inventory"><mat-icon>inventory</mat-icon> Inventory</button>
     <button mat-menu-item [matMenuTriggerFor]="catalogs"><mat-icon>menu_book</mat-icon> Catalogs</button>
+    <button mat-menu-item [matMenuTriggerFor]="settings"><mat-icon>settings</mat-icon> Settings</button>
 
     @if(session){
     <button mat-menu-item (click)="signOut()"><mat-icon>logout</mat-icon> Sign Out</button>
@@ -29,6 +30,10 @@
     <a mat-menu-item routerLink="/articles" routerLinkActive="active"><mat-icon>assignment</mat-icon> Articles</a>
     <a mat-menu-item routerLink="/clients" routerLinkActive="active"><mat-icon>loyalty</mat-icon> Clients</a>
     <a mat-menu-item routerLink="/suppliers" routerLinkActive="active"><mat-icon>contacts</mat-icon> Suppliers</a>
+  </mat-menu>
+  <mat-menu #settings="matMenu">
+    <a mat-menu-item routerLink="/todo" routerLinkActive="active"><mat-icon>assignment</mat-icon> Todo</a>
+    <a mat-menu-item routerLink="/configuration" routerLinkActive="active"><mat-icon>build</mat-icon> Configuration</a>
   </mat-menu>
 </mat-toolbar>
 <router-outlet></router-outlet>

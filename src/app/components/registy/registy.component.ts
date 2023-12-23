@@ -48,12 +48,12 @@ export class RegistyComponent implements OnChanges {
       price: [0, [Validators.required]],
       subtotal: [0],
       discount_amount: [0],
-      discount_percentage: [0],
-      tax_1_percentage: [0],
+      discount_percentage: [null],
+      tax_1_percentage: [null],
       tax_1_amount: [0],
-      tax_2_percentage: [0],
+      tax_2_percentage: [null],
       tax_2_amount: [0],
-      tax_3_percentage: [0],
+      tax_3_percentage: [null],
       tax_3_amount: [0],
       total: [0],
       description: [''],
@@ -68,17 +68,16 @@ export class RegistyComponent implements OnChanges {
     if(this.whichPrice !== 'cost')
     form.controls?.['price']?.setValue(article[(this.whichPrice ?? 'price_1') as keyof Article] ?? 0)
     form.controls?.['discount_amount']?.setValue(article.discount_amount ?? 0)
-    form.controls?.['discount_percentage']?.setValue(article.discount_percentage ?? 0)
-    form.controls?.['tax_1_percentage']?.setValue(article.tax_1_percentage ?? 0)
-    form.controls?.['tax_2_percentage']?.setValue(article.tax_2_percentage ?? 0)
-    form.controls?.['tax_3_percentage']?.setValue(article.tax_3_percentage ?? 0)
+    form.controls?.['discount_percentage']?.setValue(article.discount_percentage ? article.discount_percentage : null)
+    form.controls?.['tax_1_percentage']?.setValue(article.tax_1_percentage )
+    form.controls?.['tax_2_percentage']?.setValue(article.tax_2_percentage )
+    form.controls?.['tax_3_percentage']?.setValue(article.tax_3_percentage)
   }
 
   /**
    * calculate and mutate form total
    * @param form formGroup that calculate and mutate the total
    */
-  //TODO: si el descuento y tax percentaje es nulo entonces dejar que ponga el monto, si el usuario pone cero entonces no, ver si poner un check o algo para elegir uno u otro
   calculateTotals(form: FormGroup) {
     const price = this.formatMoney(form.value?.price)
     const quantity =  this.formatMoney(form.value?.quantity) //isNaN(parseFloat(form.value?.quantity)) ? 0 : parseFloat(form.value?.quantity)
@@ -98,7 +97,32 @@ export class RegistyComponent implements OnChanges {
     form.controls?.['tax_3_amount']?.setValue(tax3Amount)
     const total = (subtotal - discountAmount) -(tax1Amount+tax2Amount+tax3Amount) 
     form.controls?.['total'].setValue(Math.round((total + Number.EPSILON) * 100) / 100)
+    this.checkMoreEnablers(form)
     this.values.emit(form)
+
+  }
+
+  checkMoreEnablers(form: FormGroup){
+    if(form.value?.discount_percentage !== null && form.value?.discount_percentage !== undefined){
+      form.controls['discount_amount'].disable()
+    }else{
+      form.controls['discount_amount'].enable()
+    }
+    if(form.value?.tax_1_percentage !== null && form.value?.tax_1_percentage !== undefined){
+      form.controls['tax_1_amount'].disable()
+    }else{
+      form.controls['tax_1_amount'].enable()
+    }
+    if(form.value?.tax_2_percentage !== null && form.value?.tax_2_percentage !== undefined){
+      form.controls['tax_2_amount'].disable()
+    }else{
+      form.controls['tax_2_amount'].enable()
+    }
+    if(form.value?.tax_3_percentage !== null && form.value?.tax_3_percentage !== undefined){
+      form.controls['tax_3_amount'].disable()
+    }else{
+      form.controls['tax_3_amount'].enable()
+    }
   }
 
   formatMoney(data: string){
@@ -117,7 +141,6 @@ export class RegistyComponent implements OnChanges {
     const dialogRef = this.dialog.open(this.moreDialog);
 
     dialogRef.afterClosed().subscribe(result => {
-      console.log(`Dialog result: ${result}`);
     });
   }
 }

@@ -8,7 +8,7 @@ import {
   User,
 } from '@supabase/supabase-js'
 import { environment } from '../../../environments/environment'
-import { Article, Client, Entry, Output, Profile, Purchase, Sale, Supplier } from '../models/supabase.model';
+import { Article, Client, Entry, Output, Profile, Purchase, Sale, Supplier, TaxName, Todo } from '../models/supabase.model';
 import { BehaviorSubject, Subject } from 'rxjs'
 
 
@@ -97,6 +97,10 @@ export class SupabaseService {
     return this.supabase.from('articles').update(article).eq('id', article.id)
   }
 
+  deleteArticle(id: number | string){
+    return this.supabase.from('articles').delete().eq('id', id)
+  }
+
   updateInventory(amount: number, article: Article){
     article.quantity = (article?.quantity ?? 0 )+ amount
     return this.updateArticle({id: article.id, quantity: article.quantity})
@@ -122,8 +126,61 @@ export class SupabaseService {
     return this.supabase.from('suppliers').insert(supplier)
   }
 
+  updateSupplier(supplier: Supplier) {
+    return this.supabase.from('suppliers').update(supplier).eq('id', supplier.id)
+  }
+
+  deleteSupplier(id: number | string){
+    return this.supabase.from('suppliers').delete().eq('id', id)
+  }
+
   postClient(client: Client) {
     return this.supabase.from('clients').insert(client)
+  }
+
+  updateClient(client: Client)  {
+    return this.supabase.from('clients').update(client).eq('id', client.id)
+  }
+
+  deleteClient(id: number | string){
+    return this.supabase.from('clients').delete().eq('id', id)
+  }
+
+  getTaxNames(){
+    return this.supabase.from('tax_names').select()
+  }
+
+  postTaxName(tax: TaxName){
+    return this.supabase.from('tax_names').insert(tax)
+  }
+
+  updateTaxName(tax: TaxName){
+    return this.supabase.from('tax_names').update(tax).eq('id', tax.id)
+  }
+
+  deleteTaxName(id: number | string){
+    return this.supabase.from('tax_names').delete().eq('id', id)
+  }
+
+
+  getTodos(){
+    return this.supabase.from('todos').select()
+  }
+
+  postTodo(todo: Todo){
+    return this.supabase.from('todos').insert(todo)
+  }
+
+  updateTodo(todo: Todo){
+    return this.supabase.from('todos').update(todo).eq('id', todo.id)
+  }
+
+  deleteTodo(id: number | string){
+    return this.supabase.from('todos').delete().eq('id', id)
+  }
+
+  getCustom(tableName: string){
+    return this.supabase.from(tableName).select()
   }
 
 }

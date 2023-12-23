@@ -8,11 +8,15 @@ import { MatInputModule } from '@angular/material/input';
 import { SupabaseService } from '../../services/supabase.service';
 import { Article } from '../../models/supabase.model';
 import { HelperService } from '../../services/helper.service';
+import {MatDialog, MatDialogModule} from '@angular/material/dialog';
+import {MatTable, MatTableModule} from '@angular/material/table';
+import { CurrencyPipe, DecimalPipe } from '@angular/common';
 
 @Component({
   selector: 'app-articles',
   standalone: true,
-  imports: [FormsModule, ReactiveFormsModule, MatCardModule, MatButtonModule, MatIconModule, MatInputModule, MatFormFieldModule],
+  imports: [FormsModule, ReactiveFormsModule, MatCardModule, MatButtonModule, MatIconModule, MatInputModule, MatFormFieldModule, MatDialogModule, MatTableModule, CurrencyPipe,
+    DecimalPipe],
   templateUrl: './articles.component.html',
   styleUrl: './articles.component.scss'
 })
@@ -20,17 +24,24 @@ export class ArticlesComponent implements OnInit, AfterViewInit{
   loading = false
   articlesForm!: FormGroup
   @ViewChild('focusInput') focusInput!: ElementRef
+  @ViewChild('addArticle') addArticleDialog!: any
   articleList!: Article[]
+  displayedColumns: string[] = ['identifier_code', 'name', 'quantity', 'price_1', 'actions'];
+  dataSource: Article[] = []
+  @ViewChild(MatTable) table!: MatTable<Article>;
 
   constructor(
     private readonly supabase: SupabaseService,
     private readonly formBuilder: FormBuilder,
-    private readonly helper: HelperService
+    private readonly helper: HelperService,
+    private readonly dialog: MatDialog
   ) { this.createArticleForm() }
 
   ngOnInit(): void {
     this.supabase.articles.subscribe(data =>{
       this.articleList = data
+      this.dataSource = this.articleList
+      this.table?.renderRows();
     })
   }
 
@@ -62,8 +73,14 @@ export class ArticlesComponent implements OnInit, AfterViewInit{
   }
 
   async onSubmit(): Promise<void> {
+    this.articlesForm.controls['identifier_code'].setValue(this.articlesForm.controls['identifier_code'].value?.trim()?.toUpperCase())
+    if(this.checkIfExists()){
+      this.helper.ErrorMessage(`Identifier Code: ${this.articlesForm.value?.identifier_code} already exists`)
+      this.articlesForm.controls['identifier_code'].setValue(null)
+      return
+    }
     try {
-      this.loading = true
+      this.loading = true  
       const article = this.articlesForm.value as Article
       const review = ['price_2', 'price_3', 'discount_amount', 'discount_percentage']
       review.forEach((prop: string) => {
@@ -86,5 +103,32 @@ export class ArticlesComponent implements OnInit, AfterViewInit{
       this.loading = false
       this.setFocus()
     }
+  }
+
+  checkIfExists(){
+    return this.articleList.findIndex(article => article.identifier_code?.trim()?.toUpperCase() === this.articlesForm.value?.identifier_code?.trim()?.toUpperCase()) !== -1
+  }
+
+  openNewArticle(){
+    const dialogRef = this.dialog.open(this.addArticleDialog,{
+      width: 'auto',
+      maxWidth: '100vw',
+      minWidth: 'auto',
+      maxHeight: '98vh'
+    });
+    dialogRef.afterClosed().subscribe(result => {
+    });
+  }
+
+  viewArticle(article: Article){
+    
+  }
+
+  editArticle(article: Article){
+
+  }
+
+  deleteArticle(article: Article){
+    
   }
 }
