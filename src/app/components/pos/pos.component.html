@@ -21,36 +21,36 @@
             <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
             <mat-datepicker #picker></mat-datepicker>
     </mat-form-field>
-        <mat-form-field class="input-dis">
-                <mat-label>Subtotal</mat-label>
-                <input matInput [(ngModel)]="pos.subtotal" disabled>
-        </mat-form-field>
-        <mat-form-field class="input-dis">
-            <mat-label>Discount</mat-label>
-            <input matInput [(ngModel)]="pos.discount" disabled>
-        </mat-form-field>
+        <div class="totals">
+            <div>Subtotal:</div>
+            <div>{{pos.subtotal | currency}}</div>
+        </div>
+        <div class="totals">
+            <div>Discount:</div>
+            <div>{{pos.discount | currency}}</div>
+        </div>
         @if(pos.tax_1){
-            <mat-form-field class="input-dis">
-                <mat-label>Tax 1</mat-label>
-                <input matInput [(ngModel)]="pos.tax_1" disabled>
-        </mat-form-field>
+        <div class="totals">
+            <div>Tax 1:</div>
+            <div>{{pos.tax_1 | currency}}</div>
+        </div>
         }
         @if(pos.tax_2){
-            <mat-form-field class="input-dis">
-                <mat-label>Tax 2</mat-label>
-                <input matInput [(ngModel)]="pos.tax_2" disabled>
-        </mat-form-field>
+        <div class="totals">
+            <div>Tax 2:</div>
+            <div>{{pos.tax_2 | currency}}</div>
+        </div>
         }
         @if(pos.tax_3){
-            <mat-form-field class="input-dis">
-                <mat-label>Tax 3</mat-label>
-                <input matInput [(ngModel)]="pos.tax_3" disabled>
-        </mat-form-field>
+        <div class="totals">
+            <div>Tax 3:</div>
+            <div>{{pos.tax_3 | currency}}</div>
+        </div>
         }   
-        <mat-form-field class="input-dis">
-            <mat-label>Total</mat-label>
-            <input matInput [(ngModel)]="pos.total" disabled>
-        </mat-form-field>
+        <div class="totals">
+            <div>Total:</div>
+            <div>{{pos.total | currency}}</div>
+        </div>
         <mat-card-actions align="end">
             <button mat-stroked-button color="primary" class="button block" (click)="onSubmit()"
                 [disabled]="loading" style="margin: 1rem;">

@@ -3,7 +3,7 @@ import { SupabaseService } from '../../services/supabase.service';
 import { FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Article, Output, Purchase, Sale } from '../../models/supabase.model';
 import { AutocompleteArticlesComponent } from '../autocomplete-articles/autocomplete-articles.component';
-import { KeyValuePipe } from '@angular/common';
+import { CurrencyPipe, KeyValuePipe } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatNativeDateModule } from '@angular/material/core';
@@ -18,7 +18,7 @@ type temp =  {[key: number] : {article: Article, form: FormGroup}};
 @Component({
   selector: 'app-pos',
   standalone: true,
-  imports: [FormsModule, ReactiveFormsModule, MatCardModule, MatButtonModule, MatIconModule, MatInputModule, MatFormFieldModule, AutocompleteArticlesComponent, RegistyComponent, MatDatepickerModule, MatNativeDateModule, KeyValuePipe],
+  imports: [FormsModule, ReactiveFormsModule, MatCardModule, MatButtonModule, MatIconModule, MatInputModule, MatFormFieldModule, AutocompleteArticlesComponent, RegistyComponent, MatDatepickerModule, MatNativeDateModule, KeyValuePipe, CurrencyPipe],
   templateUrl: './pos.component.html',
   styleUrl: './pos.component.scss'
 })

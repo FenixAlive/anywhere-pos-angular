@@ -21,6 +21,13 @@
     margin: 0 1rem;    
 }
 
+.totals{
+    display: flex;
+    gap: 1rem;
+    justify-content: end;
+    margin: 0.3rem 2rem;
+}
+
 @media only screen and (max-width: 600px) {
     .bet-parent {
         flex-direction: column;

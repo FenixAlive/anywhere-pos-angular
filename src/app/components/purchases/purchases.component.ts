@@ -12,14 +12,14 @@ import { SupabaseService } from '../../services/supabase.service';
 import { AutocompleteArticlesComponent } from '../autocomplete-articles/autocomplete-articles.component';
 import { RegistyComponent } from '../registy/registy.component';
 import { HelperService } from '../../services/helper.service';
-import { KeyValuePipe } from '@angular/common';
+import { CurrencyPipe, KeyValuePipe } from '@angular/common';
 type temp =  {[key: number] : {article: Article, form: FormGroup}};
 
 @Component({
   selector: 'app-purchases',
   standalone: true,
   imports: [FormsModule, ReactiveFormsModule, MatCardModule, MatButtonModule, MatIconModule, MatInputModule, MatFormFieldModule, AutocompleteArticlesComponent, RegistyComponent, MatDatepickerModule, 
-    MatNativeDateModule, KeyValuePipe],
+    MatNativeDateModule, KeyValuePipe, CurrencyPipe],
   templateUrl: './purchases.component.html',
   styleUrl: './purchases.component.scss'
 })
