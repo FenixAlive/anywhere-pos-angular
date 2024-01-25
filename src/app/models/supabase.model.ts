@@ -104,3 +104,10 @@ export interface TaxName{
     tax_name: string
 }
 
+export interface Preference {
+    id?: number
+    created_at?: Date
+    key: string
+    value: string
+   }
+

@@ -11,6 +11,7 @@ import { HelperService } from '../../services/helper.service';
 import {MatDialog, MatDialogModule} from '@angular/material/dialog';
 import {MatTable, MatTableModule} from '@angular/material/table';
 import { CurrencyPipe, DecimalPipe } from '@angular/common';
+import { LanguageService } from '../../services/language.service';
 
 @Component({
   selector: 'app-articles',
@@ -34,7 +35,8 @@ export class ArticlesComponent implements OnInit, AfterViewInit{
     private readonly supabase: SupabaseService,
     private readonly formBuilder: FormBuilder,
     private readonly helper: HelperService,
-    private readonly dialog: MatDialog
+    private readonly dialog: MatDialog,
+    public readonly language: LanguageService
   ) { this.createArticleForm() }
 
   ngOnInit(): void {

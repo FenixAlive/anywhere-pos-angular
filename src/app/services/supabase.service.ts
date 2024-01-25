@@ -8,7 +8,7 @@ import {
   User,
 } from '@supabase/supabase-js'
 import { environment } from '../../../environments/environment'
-import { Article, Client, Entry, Output, Profile, Purchase, Sale, Supplier, TaxName, Todo } from '../models/supabase.model';
+import { Article, Client, Entry, Output, Preference, Profile, Purchase, Sale, Supplier, TaxName, Todo } from '../models/supabase.model';
 import { BehaviorSubject, Subject } from 'rxjs'
 
 
@@ -177,6 +177,22 @@ export class SupabaseService {
 
   deleteTodo(id: number | string){
     return this.supabase.from('todos').delete().eq('id', id)
+  }
+
+  getPreference(key: string){
+    return this.supabase.from('preferences').select().eq('key', key).maybeSingle()
+  }
+
+  postPreference(preference: Preference){
+    return this.supabase.from('preferences').insert(preference)
+  }
+
+  updatePreference(preference: Preference){
+    return this.supabase.from('preferences').update(preference).eq('id', preference.id)
+  }
+
+  deletePreference(id: number | string){
+    return this.supabase.from('preferences').delete().eq('id', id)
   }
 
   getCustom(tableName: string){

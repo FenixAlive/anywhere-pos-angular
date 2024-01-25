@@ -2,7 +2,7 @@
     <mat-card class="card">
         <mat-card-header>
             <mat-card-title
-                style="color: darkblue; display: flex; align-items: center; gap: 1rem;"><mat-icon>point_of_sale</mat-icon>
+                style="color: darkblue; display: flex; align-items: center; gap: 1rem;">
                 Point of Sales</mat-card-title>
         </mat-card-header>
         
@@ -14,13 +14,6 @@
                 }
             </div>
         </mat-card-content>
-        <mat-form-field class="input-dis" style="margin: 1rem;">
-            <mat-label>Purchase Date</mat-label>
-            <input matInput [matDatepicker]="picker" [(ngModel)]="pos.created_at">
-            <mat-hint>MM/DD/YYYY</mat-hint>
-            <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
-            <mat-datepicker #picker></mat-datepicker>
-    </mat-form-field>
         <div class="totals">
             <div>Subtotal:</div>
             <div>{{pos.subtotal | currency}}</div>

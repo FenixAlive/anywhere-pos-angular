@@ -68,7 +68,7 @@ export class PosComponent {
           tax_3: form.controls?.['tax_3']?.value,
           total: form.controls?.['total']?.value,
           article_id: article?.id,
-          created_at: this.pos.created_at,
+          created_at: new Date(),
           sale_id: resSale.data ? (resSale.data as Sale).id : undefined
         }
         this.supabase.postOutput(output).then(res=>{
