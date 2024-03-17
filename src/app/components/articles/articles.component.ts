@@ -12,6 +12,7 @@ import {MatDialog, MatDialogModule} from '@angular/material/dialog';
 import {MatTable, MatTableModule} from '@angular/material/table';
 import { CurrencyPipe, DecimalPipe } from '@angular/common';
 import { LanguageService } from '../../services/language.service';
+import { PostgrestSingleResponse } from '@supabase/supabase-js';
 
 @Component({
   selector: 'app-articles',
@@ -29,6 +30,8 @@ export class ArticlesComponent implements OnInit, AfterViewInit{
   articleList!: Article[]
   displayedColumns: string[] = ['identifier_code', 'name', 'quantity', 'price_1', 'actions'];
   dataSource: Article[] = []
+  dialogTitle = ''
+  haveDialogSend = false
   @ViewChild(MatTable) table!: MatTable<Article>;
 
   constructor(
@@ -74,9 +77,10 @@ export class ArticlesComponent implements OnInit, AfterViewInit{
     })
   }
 
-  async onSubmit(): Promise<void> {
+  async onSubmit(id?: number): Promise<void> {
+    if(!this.articlesForm.valid) return
     this.articlesForm.controls['identifier_code'].setValue(this.articlesForm.controls['identifier_code'].value?.trim()?.toUpperCase())
-    if(this.checkIfExists()){
+    if(!id && this.checkIfExists()){
       this.helper.ErrorMessage(`Identifier Code: ${this.articlesForm.value?.identifier_code} already exists`)
       this.articlesForm.controls['identifier_code'].setValue(null)
       return
@@ -90,7 +94,14 @@ export class ArticlesComponent implements OnInit, AfterViewInit{
           delete article?.[prop as keyof Article]
         }
       })
-      const res = await this.supabase.postArticle(article)
+      let res: PostgrestSingleResponse<null> = {} as PostgrestSingleResponse<null> 
+      if(id){
+        article.id = id
+        res = await this.supabase.updateArticle(article)
+      }else{
+        res = await this.supabase.postArticle(article)
+      }
+      
       if (res?.error) throw res.error
       this.helper.successMessage('article sent correctly!')
       const resp = await this.supabase.getArticles()
@@ -112,6 +123,27 @@ export class ArticlesComponent implements OnInit, AfterViewInit{
   }
 
   openNewArticle(){
+    this.haveDialogSend = true
+    this.dialogTitle = 'Add New Article'
+    this.createArticleForm()
+    const dialogRef = this.dialog.open(this.addArticleDialog,{
+      width: 'auto',
+      maxWidth: '100vw',
+      minWidth: 'auto',
+      maxHeight: '98vh'
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      if(result){
+        this.onSubmit()
+      }
+    });
+  }
+
+  viewArticle(article: Article){
+    this.haveDialogSend = false
+    this.dialogTitle = 'View Article'
+    this.fillArticleForm(article)
+    this.articlesForm.disable()
     const dialogRef = this.dialog.open(this.addArticleDialog,{
       width: 'auto',
       maxWidth: '100vw',
@@ -122,15 +154,42 @@ export class ArticlesComponent implements OnInit, AfterViewInit{
     });
   }
 
-  viewArticle(article: Article){
-    
-  }
-
   editArticle(article: Article){
-
+    this.haveDialogSend = true
+    this.dialogTitle = 'Edit Article'
+    this.fillArticleForm(article)
+    this.articlesForm.enable()
+    const dialogRef = this.dialog.open(this.addArticleDialog,{
+      width: 'auto',
+      maxWidth: '100vw',
+      minWidth: 'auto',
+      maxHeight: '98vh'
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      if(result){
+        this.onSubmit(article.id)
+      }
+    });
   }
 
   deleteArticle(article: Article){
     
+  }
+
+  fillArticleForm(article: Article){
+    this.articlesForm.setValue({
+      name: article.name,
+      identifier_code: article.identifier_code,
+      description: article.description,
+      price_1: article.price_1,
+      price_2: article.price_2,
+      price_3: article.price_3,
+      discount_amount: article.discount_amount,
+      discount_percentage: article.discount_percentage,
+      tax_1_percentage: article.tax_1_percentage,
+      tax_2_percentage: article.tax_2_percentage,
+      tax_3_percentage: article.tax_3_percentage,
+    })
+    console.log(this.articlesForm)
   }
 }

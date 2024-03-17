@@ -94,6 +94,9 @@ export class SupabaseService {
   }
 
   updateArticle(article: Article){
+    if(!article.id){
+      this.postArticle(article)
+    }
     return this.supabase.from('articles').update(article).eq('id', article.id)
   }
 
